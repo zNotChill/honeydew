@@ -76,17 +76,6 @@ object CreateServerRoute : RouteModule {
                     return@post
                 }
 
-                server.cache.description = "Hello This is my Epic Server"
-                server.cache.appendLog(LogModel(
-                    id = "",
-                    channelId = "1",
-                    message = "hello",
-                    metadata = mapOf(
-                        "test" to "1"
-                    ),
-                    timestamp = getHumanTimestamp()
-                ))
-
                 call.respond(
                     HttpStatusCode.Created,
                     response
