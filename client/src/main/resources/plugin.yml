@@ -1,0 +1,6 @@
+name: HoneydewClient
+version: '1.0-SNAPSHOT'
+main: me.znotchill.honeydew.client.HoneydewClient
+api-version: '1.21'
+load: STARTUP
+depend: [ProtocolLib]
