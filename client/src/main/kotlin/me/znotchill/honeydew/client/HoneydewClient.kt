@@ -11,8 +11,6 @@ import java.io.File
 import java.util.*
 
 class HoneydewClient : KSpigot() {
-    private val playerLocales = mutableMapOf<UUID, String>()
-
     companion object {
         lateinit var protocolManager: ProtocolManager
         lateinit var instance: HoneydewClient
@@ -29,6 +27,7 @@ class HoneydewClient : KSpigot() {
         ApiManager.key = config.server.key
         ApiManager.url = config.host.url
         ApiManager.port = config.host.port
+        ApiManager.adminKey = config.host.key
 
         task(
             sync = false,

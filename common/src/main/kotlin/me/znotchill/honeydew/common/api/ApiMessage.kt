@@ -80,5 +80,23 @@ enum class ApiMessage(
         "CHANNEL_ALREADY_EXISTS",
         "An identical log channel already exists.",
         false
+    ),
+    MISSING_CODE(
+        "error",
+        "MISSING_CODE",
+        "Missing code.",
+        false
+    ),
+    FAILED_TO_GET_TOKEN(
+        "error",
+        "FAILED_TO_GET_TOKEN",
+        "Failed to get token.",
+        false
+    ),
+    FAILED_TO_GET_USER(
+        "error",
+        "FAILED_TO_GET_USER",
+        "Failed to get user info.",
+        false
     )
 }

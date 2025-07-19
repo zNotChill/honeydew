@@ -21,7 +21,8 @@ object ConfigManager {
         )
         val hostConfig = HostConfig(
             url = config.getString("host.url"),
-            port = config.getInt("host.port")
+            port = config.getInt("host.port"),
+            key = config.getString("host.key"),
         )
         AppConfig(serverConfig, hostConfig)
     }

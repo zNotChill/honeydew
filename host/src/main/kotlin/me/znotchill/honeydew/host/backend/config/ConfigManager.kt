@@ -5,6 +5,7 @@ import com.typesafe.config.ConfigFactory
 import me.znotchill.honeydew.host.backend.config.model.ApiConfig
 import me.znotchill.honeydew.host.backend.config.model.AppConfig
 import me.znotchill.honeydew.host.backend.config.model.DatabaseConfig
+import me.znotchill.honeydew.host.backend.config.model.DiscordConfig
 import me.znotchill.honeydew.host.backend.config.model.RedisConfig
 import me.znotchill.honeydew.host.backend.config.model.ServerConfig
 
@@ -29,6 +30,10 @@ object ConfigManager {
         val redisConfig = RedisConfig(
             url = config.getString("redis.url"),
         )
-        AppConfig(serverConfig, apiConfig, databaseConfig, redisConfig)
+        val discordConfig = DiscordConfig(
+            clientId = config.getString("discord.clientId"),
+            clientSecret = config.getString("discord.clientSecret"),
+        )
+        AppConfig(serverConfig, apiConfig, databaseConfig, redisConfig, discordConfig)
     }
 }

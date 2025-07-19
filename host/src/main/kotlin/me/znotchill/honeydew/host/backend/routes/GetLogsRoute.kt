@@ -68,7 +68,7 @@ object GetLogsRoute : RouteModule {
                     HttpStatusCode.OK,
                     GetLogsResponse(
                         success = true,
-                        logs = server.logs
+                        logs = server.cache.logs
                     )
                 )
             }

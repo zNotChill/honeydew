@@ -1,21 +1,19 @@
 package me.znotchill.honeydew.host.backend.database
 
-import me.znotchill.honeydew.common.database.model.LogChannelModel
+import me.znotchill.honeydew.common.database.model.*
+import me.znotchill.honeydew.common.routes.model.*
 import me.znotchill.honeydew.host.backend.config.ConfigManager
-import me.znotchill.honeydew.common.database.model.PlayerModel
-import me.znotchill.honeydew.common.database.model.StatusModel
 import me.znotchill.honeydew.host.backend.database.tables.Server
 import me.znotchill.honeydew.host.backend.database.tables.Servers
-import me.znotchill.honeydew.common.routes.model.CreateServerRequest
-import me.znotchill.honeydew.common.routes.model.CreateServerResponse
-import me.znotchill.honeydew.common.routes.model.UpdatePlayersResponse
+import me.znotchill.honeydew.host.backend.database.tables.User
+import me.znotchill.honeydew.host.backend.database.tables.Users
 import me.znotchill.honeydew.host.backend.utils.generateSecureToken
 import org.jetbrains.exposed.v1.core.and
 import org.jetbrains.exposed.v1.core.lowerCase
 import org.jetbrains.exposed.v1.jdbc.Database
 import org.jetbrains.exposed.v1.jdbc.SchemaUtils
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
-import java.util.UUID
+import java.util.*
 
 object DatabaseManager {
     val cfg = ConfigManager.appConfig
@@ -29,7 +27,7 @@ object DatabaseManager {
         )
 
         transaction {
-            SchemaUtils.create(Servers)
+            SchemaUtils.create(Servers, Users)
         }
     }
 
@@ -57,6 +55,33 @@ object DatabaseManager {
             id = server.first.id.value.toString(),
             key = server.second,
             success = true,
+        )
+    }
+
+    fun createUser(
+        request: CreateUserRequest
+    ): CreateUserResponse {
+        val user = transaction {
+            val token = generateSecureToken()
+
+            val newUser = User.new {
+                username = request.username
+                status = UserStatusModel.OFFLINE
+                role = UserRoleModel.SUPPORT
+                discordId = request.id
+                discordUsername = request.username
+                discordAvatar = request.avatar ?: ""
+                discordAccessToken = request.accessToken
+                accessToken = token
+            }
+
+            newUser to token
+        }
+
+        return CreateUserResponse(
+            success = true,
+            accessToken = user.first.accessToken,
+            userId = user.first.id.toString()
         )
     }
 
@@ -95,6 +120,30 @@ object DatabaseManager {
             Server.find {
                 (Servers.id eq uuid) and
                 (Servers.key eq key)
+            }.firstOrNull()
+        }
+    }
+
+    fun getUser(uuid: UUID): User? {
+        return transaction {
+            User.find {
+                Users.id eq uuid
+            }.firstOrNull()
+        }
+    }
+
+    fun getUserByToken(accessToken: String): User? {
+        return transaction {
+            User.find {
+                Users.accessToken eq accessToken
+            }.firstOrNull()
+        }
+    }
+
+    fun getUserByDiscordId(id: String): User? {
+        return transaction {
+            User.find {
+                Users.discordId eq id
             }.firstOrNull()
         }
     }

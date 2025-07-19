@@ -8,6 +8,7 @@ import me.znotchill.honeydew.common.database.model.PlayerModel
 import me.znotchill.honeydew.common.database.model.StatusModel
 import me.znotchill.honeydew.host.backend.database.DatabaseManager.getServer
 import me.znotchill.honeydew.host.backend.database.tables.Servers
+import me.znotchill.honeydew.host.backend.redis.interfaces.RedisBacked
 import org.jetbrains.exposed.v1.jdbc.transactions.transaction
 import org.jetbrains.exposed.v1.jdbc.update
 import java.util.*
@@ -30,10 +31,9 @@ object ServerCacheStore {
 
 class ServerCache(
     val id: String,
-    val redis: RedisCommands<String, String>
-) {
-    val prefix = "server:$id"
-
+    override val redis: RedisCommands<String, String>,
+    override val prefix: String = "server:$id"
+) : RedisBacked {
     var name: String by redisString("name")
     var description: String by redisString("description")
     var ip: String by redisString("ip")

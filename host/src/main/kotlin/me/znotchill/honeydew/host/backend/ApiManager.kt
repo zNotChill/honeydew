@@ -16,6 +16,8 @@ import me.znotchill.honeydew.host.backend.config.ConfigManager
 import me.znotchill.honeydew.host.backend.database.DatabaseManager
 import me.znotchill.honeydew.host.backend.redis.RedisManager
 import me.znotchill.honeydew.host.backend.redis.ServerCacheStore
+import me.znotchill.honeydew.host.backend.redis.UserCacheStore
+import me.znotchill.honeydew.host.backend.routes.AuthRoutes
 import me.znotchill.honeydew.host.backend.routes.CreateLogChannelRoute
 import me.znotchill.honeydew.host.backend.routes.CreateLogRoute
 import me.znotchill.honeydew.host.backend.routes.CreateServerRoute
@@ -35,6 +37,10 @@ object ApiManager {
     }
     val logger = KotlinLogging.logger {}
 
+    fun getBaseUrl(): String {
+        return "http://${cfg.server.host}:${cfg.server.port}"
+    }
+
     @OptIn(DelicateCoroutinesApi::class)
     fun Application.apiModule() {
         install(ContentNegotiation) {
@@ -48,12 +54,15 @@ object ApiManager {
         CreateLogRoute.register(this)
         CreateLogChannelRoute.register(this)
         GetLogsRoute.register(this)
+        AuthRoutes.register(this)
 
         GlobalScope.launch {
             while (true) {
                 delay(10_000L)
                 ServerCacheStore.getAll().forEach {
-                    println("Flushed ${it.value.name} to DB")
+                    it.value.flushToDatabase()
+                }
+                UserCacheStore.getAll().forEach {
                     it.value.flushToDatabase()
                 }
             }

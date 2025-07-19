@@ -20,6 +20,7 @@ object ApiManager {
     var key: String = ""
     var url: String = ""
     var port: Int = 0
+    var adminKey: String = ""
 
     val client = HttpClient(CIO) {
         install(ContentNegotiation) {
@@ -63,6 +64,9 @@ object ApiManager {
 
                 client.patch("${getFullUrl()}/api/servers/$id/players") {
                     contentType(ContentType.Application.Json)
+                    headers {
+                        append("X-Admin-Key", adminKey)
+                    }
                     setBody(UpdatePlayersRequest(
                         key = key,
                         players = structuredPlayers

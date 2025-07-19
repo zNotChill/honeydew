@@ -69,7 +69,7 @@ object GetPlayersRoute : RouteModule {
                     HttpStatusCode.OK,
                     GetPlayersResponse(
                         success = true,
-                        players = server.players
+                        players = server.cache.players
                     )
                 )
             }

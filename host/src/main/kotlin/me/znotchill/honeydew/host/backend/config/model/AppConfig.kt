@@ -5,4 +5,5 @@ data class AppConfig(
     val api: ApiConfig,
     val database: DatabaseConfig,
     val redis: RedisConfig,
+    val discord: DiscordConfig,
 )
