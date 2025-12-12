@@ -21,10 +21,10 @@ import me.znotchill.honeydew.host.backend.routes.validators.createLogValidator
 import me.znotchill.honeydew.host.backend.utils.getHumanTimestamp
 import java.util.UUID
 
-object CreateLogRoute : RouteModule {
+object CreateLogRoute : RouteModule() {
     override fun register(application: Application) {
         application.routing {
-            post("/api/servers/{id}/logs") {
+            post("/api/v1/servers/{id}/logs") {
                 val id = call.parameters["id"]
                 val request = call.receive<CreateLogRequest>()
 

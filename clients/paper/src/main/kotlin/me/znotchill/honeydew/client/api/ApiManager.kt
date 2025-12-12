@@ -62,7 +62,7 @@ object ApiManager {
                     )
                 }
 
-                client.patch("${getFullUrl()}/api/servers/$id/players") {
+                client.patch("${getFullUrl()}/api/v1/servers/$id/players") {
                     contentType(ContentType.Application.Json)
                     headers {
                         append("X-Admin-Key", adminKey)

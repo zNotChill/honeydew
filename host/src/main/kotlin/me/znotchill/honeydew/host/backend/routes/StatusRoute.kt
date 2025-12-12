@@ -10,10 +10,10 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import me.znotchill.honeydew.common.routes.model.StatusResponse
 
-object StatusRoute : RouteModule {
+object StatusRoute : RouteModule() {
     override fun register(application: Application) {
         application.routing {
-            get("/api/status") {
+            get("/api/v1//status") {
                 call.respond(
                     ApiResponse.from(ApiMessage.SERVER_ONLINE, StatusResponse(
                         version = "Beehive 1.0.0 (Honeydew Host)"

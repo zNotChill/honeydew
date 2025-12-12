@@ -17,10 +17,10 @@ import me.znotchill.honeydew.host.backend.interfaces.RouteModule
 import me.znotchill.honeydew.host.backend.routes.validators.updatePlayersValidator
 import java.util.*
 
-object UpdatePlayersRoute : RouteModule {
+object UpdatePlayersRoute : RouteModule() {
     override fun register(application: Application) {
         application.routing {
-            patch("/api/servers/{id}/players") {
+            patch("/api/v1/servers/{id}/players") {
                 val id = call.parameters["id"]
                 val request = call.receive<UpdatePlayersRequest>()
 

@@ -12,7 +12,7 @@ import me.znotchill.honeydew.host.backend.auth.AuthManager
 import me.znotchill.honeydew.host.backend.database.DatabaseManager
 import me.znotchill.honeydew.host.backend.interfaces.RouteModule
 
-object AuthRoutes : RouteModule {
+object AuthRoutes : RouteModule() {
     override fun register(application: Application) {
         application.routing {
             get("/login") {
@@ -21,7 +21,7 @@ object AuthRoutes : RouteModule {
                 )
             }
 
-            get("/api/auth/callback") {
+            get("/api/v1/auth/callback") {
                 val code = call.request.queryParameters["code"]
                 if (code == null) {
                     call.respond(

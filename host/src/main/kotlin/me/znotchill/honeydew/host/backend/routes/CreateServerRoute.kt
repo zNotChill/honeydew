@@ -17,10 +17,10 @@ import me.znotchill.honeydew.common.routes.model.CreateServerRequest
 import me.znotchill.honeydew.host.backend.config.ConfigManager
 import me.znotchill.honeydew.host.backend.utils.getHumanTimestamp
 
-object CreateServerRoute : RouteModule {
+object CreateServerRoute : RouteModule() {
     override fun register(application: Application) {
         application.routing {
-            post("/api/servers/create") {
+            post("/api/v1/servers/create") {
                 val request = call.receive<CreateServerRequest>()
 
                 val adminKey = call.request.headers["X-Admin-Key"]

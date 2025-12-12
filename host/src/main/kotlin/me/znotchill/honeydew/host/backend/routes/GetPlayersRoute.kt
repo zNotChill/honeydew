@@ -13,10 +13,10 @@ import me.znotchill.honeydew.host.backend.interfaces.RouteModule
 import me.znotchill.honeydew.host.backend.database.DatabaseManager.getServer
 import java.util.UUID
 
-object GetPlayersRoute : RouteModule {
+object GetPlayersRoute : RouteModule() {
     override fun register(application: Application) {
         application.routing {
-            get("/api/servers/{id}/players") {
+            get("/api/v1/servers/{id}/players") {
                 val id = call.parameters["id"]
 
                 val adminKey = call.request.headers["X-Admin-Key"]

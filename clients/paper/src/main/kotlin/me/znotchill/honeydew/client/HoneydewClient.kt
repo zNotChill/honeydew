@@ -8,7 +8,6 @@ import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.main.KSpigot
 import net.axay.kspigot.runnables.task
 import java.io.File
-import java.util.*
 
 class HoneydewClient : KSpigot() {
     companion object {

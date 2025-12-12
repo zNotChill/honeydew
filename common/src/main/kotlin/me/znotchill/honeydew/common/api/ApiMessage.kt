@@ -98,5 +98,11 @@ enum class ApiMessage(
         "FAILED_TO_GET_USER",
         "Failed to get user info.",
         false
+    ),
+    INVALID_BODY(
+        "error",
+        "INVALID_BODY",
+        "Invalid request body.",
+        false
     )
 }
